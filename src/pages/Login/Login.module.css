@@ -1,0 +1,12 @@
+.container_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input_text {
+  margin-bottom: 10px;
+}
+
+.input_password {
+  margin: 5px;
+}
