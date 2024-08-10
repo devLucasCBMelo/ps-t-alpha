@@ -1,3 +1,31 @@
+export const fetchRegister = async (name: string, taxnumber: string, email: string, phone: string, password: string) => {
+  try {
+    const response = await fetch('https://interview.t-alpha.com.br/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        taxNumber: taxnumber,
+        mail: email,
+        phone: phone,
+        password: password
+      })
+    });
+
+    if(!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = response.json();
+    return data;
+
+  } catch (error) {
+    console.log('Erro ao executar o fetchRegister', error)
+  }
+}
+
 export const fetchProducts = async () => {
   try {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
@@ -13,14 +41,13 @@ export const fetchProducts = async () => {
     }
 
     const data = await response.json();
-    console.log(data)
     return data;
   } catch (error) {
     console.log('Erro ao buscar API', error);
   }
 }
 
-export const fetchLogin = async () => {
+export const fetchLogin = async (taxnumber: string, password: string) => {
   try {
     const response = await fetch('https://interview.t-alpha.com.br/api/auth/login', {
       method: 'POST',
@@ -28,8 +55,8 @@ export const fetchLogin = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        taxNumber: '12345678900',
-        password: '123456'
+        taxNumber: taxnumber,
+        password: password
       })
     });
 
@@ -38,7 +65,7 @@ export const fetchLogin = async () => {
     }
 
     const data = await response.json();
-    //console.log(data)
+    console.log(data)
     return data;
   } catch (error) {
     console.log('Erro ao buscar API', error);
