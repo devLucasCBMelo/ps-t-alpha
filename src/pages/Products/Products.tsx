@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { useNavigate } from "react-router-dom";
-import { getAllProducts, getProductById } from "../../utils/fetchProductsApi";
+import { fetchDeleteProductById, getAllProducts, getProductById } from "../../utils/fetchProductsApi";
 
 function Products() {
   const [productsList, setProductsList] = useState<any[]>([]);
@@ -9,18 +9,18 @@ function Products() {
   const [foundedProduct, setFoundedProduct] = useState<any>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      try {
-        const allProducts = await getAllProducts();
-        setProductsList(allProducts.data.products);
-      } catch (error) {
-        console.log("Erro ao buscar produtos", error);
-      }
-    };
+  const fetchAllProducts = async () => {
+    try {
+      const allProducts = await getAllProducts();
+      setProductsList(allProducts.data.products);
+    } catch (error) {
+      console.log("Erro ao buscar produtos", error);
+    }
+  };
 
+  useEffect(() => {
     fetchAllProducts();
-  }, []);
+  }, [productsList]);
 
   const findProductById = async () => {
     try {
@@ -36,13 +36,27 @@ function Products() {
     findProductById();
   };
 
+  const deleteProduct = async (id: number) => {
+    try {
+      await fetchDeleteProductById(id)
+      
+      alert("Produto deletado com sucesso!")
+      await fetchAllProducts()
+    } catch (error) {
+      console.log("Erro ao deletar o produto", error)
+    }
+  }
+
   return (
     <div className={styles.products_container}>
       <div className={styles.products_header}>
         <h1>Meus produtos</h1>
       </div>
 
-      <button className={styles.register_button} onClick={() => navigate('/registerproducts')}>Cadastrar novo produto</button>
+      <div>
+        <button className={styles.register_button} onClick={() => navigate('/registerproducts')}>Cadastrar novo produto</button>
+        <button onClick={ () => navigate('/updateproducts')}>Atualizar produto</button>
+      </div>
 
       <div>
         <input
@@ -68,14 +82,24 @@ function Products() {
           </div>
         ) : (
           productsList.map((product, index) => (
-            <div key={index} className={styles.product_card}>
-              <div>
-                <p className={styles.card_id}><strong>id: </strong>{product.id}</p>
-                <p className={styles.card_name}><strong>Nome: </strong>{product.name}</p>
-                <p className={styles.card_description}><strong>Descrição: </strong>{product.description}</p>
-                <p className={styles.card_quantity}><strong>Quantidade disponível no estoque: </strong>{product.stock}</p>
-                <p className={styles.card_price}><strong>Preço: </strong>R$ {product.price}</p>
+            <div key={index} className={ styles.product_card_container}>
+              <div className={styles.product_card}>
+                <div>
+                  <p className={styles.card_id}><strong>id: </strong>{product.id}</p>
+                  <p className={styles.card_name}><strong>Nome: </strong>{product.name}</p>
+                  <p className={styles.card_description}><strong>Descrição: </strong>{product.description}</p>
+                  <p className={styles.card_quantity}><strong>Quantidade disponível no estoque: </strong>{product.stock}</p>
+                  <p className={styles.card_price}><strong>Preço: </strong>R$ {product.price}</p>
+                </div>
               </div>
+
+              <button
+                className={ styles.delete_button }
+                onClick={ () => deleteProduct(product.id)}
+              >
+                X
+              </button>
+
             </div>
           ))
         )}

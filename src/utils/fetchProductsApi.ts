@@ -143,3 +143,54 @@ export const getProductById = async (id: number) => {
     console.log('Erro ao executar o getProductById', error);
   }
 }
+
+export const fetchUpdateProducts = async (id: number, productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
+  try {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
+    const response = await fetch(`https://interview.t-alpha.com.br/api/products/update-product/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        stock: productQuantity
+      })
+    });
+    
+    if(!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.log('Erro ao executar o fetchUpdateProducts', error);
+  }
+}
+
+export const fetchDeleteProductById = async (id: number) => {
+  try {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
+    const response = await fetch(`https://interview.t-alpha.com.br/api/products/delete-product/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if(!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = response.json();
+    return data;
+    
+  } catch (error) {
+    console.log('Erro ao executar o deleteProductById', error);
+  }
+} 

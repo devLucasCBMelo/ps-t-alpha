@@ -37,6 +37,10 @@
   align-content: center;
 }
 
+.product_card_container {
+  margin: 20px;
+}
+
 .product_card {
   background-color: white;
   border: 0.518px solid #b1b1b1;
@@ -45,7 +49,6 @@
   display: flex;
   flex-direction: column;
   font-weight: 400;
-  margin: 20px;
   max-width: 30vh;
   padding: 0px;
   
@@ -91,4 +94,13 @@
   flex-direction: row;
   margin-bottom: 5px;
   padding: 0 5px 3px 5px;
+}
+
+.delete_button {
+  background-color: rgb(153, 15, 15);
+  color: white;
+  font-weight: bolder;
+  height: 25px;
+  text-align: center;
+  font-size: 10px;
 }
