@@ -4,6 +4,19 @@
   align-items: center;
 }
 
+.register_header {
+  background-color: chocolate;
+  color: antiquewhite;
+  display: flex;
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  height: 7vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .register_container h3 {
   margin: 0;
 }
@@ -14,7 +27,42 @@
 
 .back_button {
   margin-bottom: 20px;
+  margin-top: 40px;
+}
 
+.form_input_name_register {
+  height: 35px;
+  width: 400px;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.form_input_tax_number_register {
+  height: 35px;
+  width: 400px;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.form_input_email_register {
+  height: 35px;
+  width: 400px;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.form_input_phone_register {
+  height: 35px;
+  width: 400px;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.form_input_password_register {
+  height: 35px;
+  width: 400px;
+  font-size: 15px;
+  margin-bottom: 15px;
 }
 
 button {

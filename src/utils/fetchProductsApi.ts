@@ -118,6 +118,28 @@ export const getAllProducts = async () => {
     return data;
     
   } catch (error) {
-    console.log('Erro ao executar o fetchRegisterProducts', error);
+    console.log('Erro ao executar o getAllProducts', error);
+  }
+}
+
+export const getProductById = async (id: number) => {
+  try {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
+    const response = await fetch(`https://interview.t-alpha.com.br/api/products/get-one-product/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if(!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = response.json();
+    return data;
+    
+  } catch (error) {
+    console.log('Erro ao executar o getProductById', error);
   }
 }

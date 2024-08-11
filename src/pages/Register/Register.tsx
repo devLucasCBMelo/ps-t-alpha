@@ -41,7 +41,7 @@ function RegisterUser() {
       userpassword: userPassword
     }
 
-    console.log(`${typeof userTaxNumber}`)
+    // console.log(`${typeof userTaxNumber}`)
 
     setUsers([...users, newUser])
     setUserName('');
@@ -57,7 +57,9 @@ function RegisterUser() {
 
   return (
     <div className={ styles.register_container } >
-      <h1>Cadastro</h1>
+      <div className={ styles.register_header }>
+        <h1>Cadastro</h1>
+      </div>
       <button
         className={styles.back_button}
         onClick={ () => navigate('/')}
@@ -69,6 +71,7 @@ function RegisterUser() {
         <div>
           <h3>Nome completo:</h3>
           <input
+            className={ styles.form_input_name_register}
             type="text"
             placeholder="Nome"
             value={ userName }
@@ -80,6 +83,7 @@ function RegisterUser() {
         <div>
           <h3>CPF ou CNPJ:</h3>
           <input
+            className={ styles.form_input_tax_number_register}
             type="text"
             placeholder="taxNumber"
             value={ userTaxNumber }
@@ -91,6 +95,7 @@ function RegisterUser() {
         <div>
           <h3>Email:</h3>
           <input
+            className={ styles.form_input_email_register}
             type="email"
             placeholder="Email"
             value={ userEmail }
@@ -102,6 +107,7 @@ function RegisterUser() {
         <div>
           <h3>Telefone:</h3>
           <input
+            className={ styles.form_input_phone_register}
             type="text"
             placeholder="Telefone"
             value={ userPhone }
@@ -113,6 +119,7 @@ function RegisterUser() {
         <div>
           <h3>Senha:</h3>
           <input
+            className={ styles.form_input_password_register}
             type="text"
             placeholder="Senha"
             value={ userPassword }
