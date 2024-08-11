@@ -5,3 +5,10 @@ export type User = {
   userphone: string,
   userpassword: string,
 }
+
+export type Product = {
+  name: string,
+  description: string,
+  price: number,
+  stock: number,
+}

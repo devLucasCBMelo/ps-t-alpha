@@ -16,7 +16,7 @@ function RegisterUser() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const usersInLocalStorage = localStorage.getItem('@users');
+    const usersInLocalStorage = localStorage.getItem('users');
     //console.log('Usuários no localStorage', usersInLocalStorage);
 
     if(usersInLocalStorage) {
@@ -26,14 +26,22 @@ function RegisterUser() {
 
   useEffect(() => {
     if(users.length > 0) {
-      localStorage.setItem('@users', JSON.stringify(users))
+      localStorage.setItem('users', JSON.stringify(users))
     }
   }, [users])
 
   const saveUserOnLocalStorage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newUser: User = { username: userName, taxnumber: userTaxNumber, useremail: userEmail, userphone: userPhone, userpassword: userPassword }
+    const newUser: User = {
+      username: userName,
+      taxnumber: userTaxNumber,
+      useremail: userEmail,
+      userphone: userPhone,
+      userpassword: userPassword
+    }
+
+    console.log(`${typeof userTaxNumber}`)
 
     setUsers([...users, newUser])
     setUserName('');
@@ -64,6 +72,7 @@ function RegisterUser() {
             type="text"
             placeholder="Nome"
             value={ userName }
+            required
             onChange={ (event) => setUserName(event.target.value)}
           />
         </div>
@@ -74,6 +83,7 @@ function RegisterUser() {
             type="text"
             placeholder="taxNumber"
             value={ userTaxNumber }
+            required
             onChange={ (event) => setUserTaxNumber(event.target.value)}
           />
         </div>
@@ -84,6 +94,7 @@ function RegisterUser() {
             type="email"
             placeholder="Email"
             value={ userEmail }
+            required
             onChange={ (event) => setUserEmail(event.target.value)}
           />
         </div>
@@ -94,6 +105,7 @@ function RegisterUser() {
             type="text"
             placeholder="Telefone"
             value={ userPhone }
+            required
             onChange={ (event) => setUserPhone(event.target.value)}
           />
         </div>
@@ -104,6 +116,7 @@ function RegisterUser() {
             type="text"
             placeholder="Senha"
             value={ userPassword }
+            required
             onChange={ (event) => setUserPassword(event.target.value)}
           />
         </div>

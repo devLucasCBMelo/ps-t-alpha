@@ -9,11 +9,24 @@ function Login() {
 
   const [userTaxNumber, setUserTaxNumber] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [checkLoginInfos, setCheckLoginInfos] = useState(true);
 
   const [users, setUsers] = useState<User[]>([]);
 
+  const isTaxNumberCPF = /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/.test(userTaxNumber)
+  const isTaxNumberCNPJ = /^(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{14})$/.test(userTaxNumber)
+  const isPasswordValid = userPassword.length > 5;
+
   useEffect(() => {
-    const usersInLocalStorage = localStorage.getItem('@users');
+    if((isTaxNumberCPF || isTaxNumberCNPJ) && isPasswordValid) {
+      setCheckLoginInfos(false)
+    } else {
+      setCheckLoginInfos(true)
+    }
+  }, [isTaxNumberCPF, isTaxNumberCNPJ, isPasswordValid])
+
+  useEffect(() => {
+    const usersInLocalStorage = localStorage.getItem('users');
     //console.log('Usuários no localStorage', usersInLocalStorage);
 
     if(usersInLocalStorage) {
@@ -25,7 +38,7 @@ function Login() {
     event.preventDefault()
     
     const checkInStorage = users.map((user) => {
-      console.log('entrei no map')
+      //console.log('entrei no map')
       if(user.taxnumber == userTaxNumber && user.userpassword == userPassword){
         return true
       }
@@ -33,8 +46,6 @@ function Login() {
 
     if(checkInStorage){
       alert(`Eu sou uma pessoa cadastrada`)
-      console.log(`tax: ${userTaxNumber} e tipo: ${typeof userTaxNumber}`)
-      console.log(`tax: ${userPassword} e tipo: ${typeof userPassword}`)
       await fetchLogin(userTaxNumber, userPassword)
       navigate('/products')
     } else {
@@ -53,15 +64,17 @@ function Login() {
           type="text"
           placeholder="Digite seu CPF ou CNPJ"
           className={ styles.input_text }
+          required
           onChange={ (event) => setUserTaxNumber(event.target.value)}
         />
         <input
           type="password"
           placeholder="Senha do usuário"
           className={ styles.input_password }
+          required
           onChange={ (event) => setUserPassword(event.target.value)}
         />
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={checkLoginInfos}>Entrar</button>
       </form>
 
       <div className={ styles.second_container}>

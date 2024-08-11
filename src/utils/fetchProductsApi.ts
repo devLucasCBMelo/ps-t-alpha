@@ -1,3 +1,27 @@
+export const fetchLogin = async (taxnumber: string, password: string) => {
+  try {
+    const response = await fetch('https://interview.t-alpha.com.br/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        taxNumber: taxnumber,
+        password: password
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Erro ao buscar API', error);
+  }
+}
+
 export const fetchRegister = async (name: string, taxnumber: string, email: string, phone: string, password: string) => {
   try {
     const response = await fetch('https://interview.t-alpha.com.br/api/auth/register', {
@@ -32,7 +56,7 @@ export const fetchProducts = async () => {
     const response = await fetch('https://interview.t-alpha.com.br/api/products/get-all-products', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
       }
     });
 
@@ -47,27 +71,53 @@ export const fetchProducts = async () => {
   }
 }
 
-export const fetchLogin = async (taxnumber: string, password: string) => {
+export const fetchRegisterProducts = async (productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
   try {
-    const response = await fetch('https://interview.t-alpha.com.br/api/auth/login', {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
+    const response = await fetch('https://interview.t-alpha.com.br/api/products/create-product', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
-        taxNumber: taxnumber,
-        password: password
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        stock: productQuantity
       })
     });
 
-    if (!response.ok) {
+    if(!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log(data)
+    const data = response.json();
     return data;
+    
   } catch (error) {
-    console.log('Erro ao buscar API', error);
+    console.log('Erro ao executar o fetchRegisterProducts', error);
+  }
+}
+
+export const getAllProducts = async () => {
+  try {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
+    const response = await fetch('https://interview.t-alpha.com.br/api/products/get-all-products', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if(!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const data = response.json();
+    return data;
+    
+  } catch (error) {
+    console.log('Erro ao executar o fetchRegisterProducts', error);
   }
 }
