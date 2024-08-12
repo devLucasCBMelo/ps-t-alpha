@@ -12,7 +12,7 @@ export const fetchLogin = async (taxnumber: string, password: string) => {
     });
 
     if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
+      return { success: false, message: `Erro HTTP: ${response.status}` };
     }
 
     const data = await response.json();
@@ -100,9 +100,8 @@ export const fetchRegisterProducts = async (productName: string, productDescript
   }
 }
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (token: string) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
     const response = await fetch('https://interview.t-alpha.com.br/api/products/get-all-products', {
       method: 'GET',
       headers: {

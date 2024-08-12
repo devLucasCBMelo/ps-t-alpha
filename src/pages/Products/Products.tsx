@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { useNavigate } from "react-router-dom";
 import { fetchDeleteProductById, getAllProducts, getProductById } from "../../utils/fetchProductsApi";
+import context from "../../context/appContext";
 
 function Products() {
   const [productsList, setProductsList] = useState<any[]>([]);
@@ -9,9 +10,11 @@ function Products() {
   const [foundedProduct, setFoundedProduct] = useState<any>(null);
   const navigate = useNavigate();
 
+  const {userToken} = useContext(context)
+
   const fetchAllProducts = async () => {
     try {
-      const allProducts = await getAllProducts();
+      const allProducts = await getAllProducts(userToken);
       setProductsList(allProducts.data.products);
     } catch (error) {
       console.log("Erro ao buscar produtos", error);

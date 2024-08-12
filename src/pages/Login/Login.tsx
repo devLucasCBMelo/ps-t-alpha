@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { fetchLogin } from "../../utils/fetchProductsApi";
 import styles from "./Login.module.css"
-import { useEffect, useState } from "react";
-import { User } from "../../type";
+import { useContext, useEffect, useState } from "react";
+import context from "../../context/appContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,46 +11,37 @@ function Login() {
   const [userPassword, setUserPassword] = useState('');
   const [checkLoginInfos, setCheckLoginInfos] = useState(true);
 
-  const [users, setUsers] = useState<User[]>([]);
+  const { setUserToken } = useContext(context)
 
-  const isTaxNumberCPF = /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/.test(userTaxNumber)
-  const isTaxNumberCNPJ = /^(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{14})$/.test(userTaxNumber)
+  //const isTaxNumberCPF = /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/.test(userTaxNumber)
+  //const isTaxNumberCNPJ = /^(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{14})$/.test(userTaxNumber)
   const isPasswordValid = userPassword.length > 5;
 
   useEffect(() => {
-    if((isTaxNumberCPF || isTaxNumberCNPJ) && isPasswordValid) {
+    if(isPasswordValid) {
       setCheckLoginInfos(false)
     } else {
       setCheckLoginInfos(true)
     }
-  }, [isTaxNumberCPF, isTaxNumberCNPJ, isPasswordValid])
-
-  useEffect(() => {
-    const usersInLocalStorage = localStorage.getItem('users');
-    //console.log('Usuários no localStorage', usersInLocalStorage);
-
-    if(usersInLocalStorage) {
-      setUsers(JSON.parse(usersInLocalStorage))
-    }
-  }, []);
+  }, [isPasswordValid])
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     
-    const checkInStorage = users.map((user) => {
-      //console.log('entrei no map')
-      if(user.taxnumber == userTaxNumber && user.userpassword == userPassword){
-        return true
+    try {
+      const responseAPI = await fetchLogin(userTaxNumber, userPassword)
+      const token = responseAPI.data.token
+      setUserToken(token)
+      if (responseAPI.success) {
+        navigate('/products')
+      } else {
+        alert(responseAPI.message || "Usuário ou senha inválidos!")
       }
-    })
-
-    if(checkInStorage){
-      alert(`Eu sou uma pessoa cadastrada`)
-      await fetchLogin(userTaxNumber, userPassword)
-      navigate('/products')
-    } else {
-      alert('Usuário ou senha incorretos')
-    }
+    } catch (error) {
+      console.log("Erro ao tentar fazer login", error)
+      alert("Usuário ou senha inválidos")
+    } 
+    
   }
   
   return (
