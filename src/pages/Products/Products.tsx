@@ -27,7 +27,7 @@ function Products() {
 
   const findProductById = async () => {
     try {
-      const result = await getProductById(Number(productId));
+      const result = await getProductById(userToken, Number(productId));
       setFoundedProduct(result.data.product);
     } catch (error) {
       console.log("Erro ao buscar produto", error);
@@ -41,7 +41,7 @@ function Products() {
 
   const deleteProduct = async (id: number) => {
     try {
-      await fetchDeleteProductById(id)
+      await fetchDeleteProductById(userToken, id)
       
       alert("Produto deletado com sucesso!")
       await fetchAllProducts()

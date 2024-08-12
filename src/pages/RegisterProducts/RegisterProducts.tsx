@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./RegisterProducts.module.css"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { fetchRegisterProducts } from "../../utils/fetchProductsApi";
+import context from "../../context/appContext";
 
 function RegisterProducts() {
   const navigate = useNavigate();
@@ -11,10 +12,12 @@ function RegisterProducts() {
   const [productPrice, setProductPrice] = useState('')
   const [productQuantity, setProductQuantity] = useState('')
 
+  const { userToken } = useContext(context)
+
   const saveProduct = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await fetchRegisterProducts(productName, productDescription, Number(productPrice), Number(productQuantity));
+    await fetchRegisterProducts(userToken, productName, productDescription, Number(productPrice), Number(productQuantity));
 
     setProductName('');
     setProductDescription('')

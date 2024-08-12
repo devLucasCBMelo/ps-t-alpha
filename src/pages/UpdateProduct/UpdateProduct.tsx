@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./UpdateProduct.module.css";
-import { useState } from "react";
-import { fetchDeleteProductById, fetchUpdateProducts } from "../../utils/fetchProductsApi";
+import { useContext, useState } from "react";
+import { fetchUpdateProducts } from "../../utils/fetchProductsApi";
+import context from "../../context/appContext";
 
 function UpdateProduct() {
   const navigate = useNavigate();
@@ -12,19 +13,20 @@ function UpdateProduct() {
   const [productPrice, setProductPrice] = useState('')
   const [productQuantity, setProductQuantity] = useState('')
 
+  const { userToken } = useContext(context)
+
   const updateProduct = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     try {
-      const response = await fetchUpdateProducts(
+      await fetchUpdateProducts(
+        userToken,
         Number(productId),
         productName,
         productDescription,
         Number(productPrice),
         Number(productQuantity)
       );
-
-      console.log(response)
   
       alert('Produto atualizado com sucesso, confira em Meus Produtos!')
     } catch (error) {

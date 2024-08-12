@@ -50,30 +50,8 @@ export const fetchRegister = async (name: string, taxnumber: string, email: stri
   }
 }
 
-export const fetchProducts = async () => {
+export const fetchRegisterProducts = async (token: string, productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
-    const response = await fetch('https://interview.t-alpha.com.br/api/products/get-all-products', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log('Erro ao buscar API', error);
-  }
-}
-
-export const fetchRegisterProducts = async (productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
-  try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
     const response = await fetch('https://interview.t-alpha.com.br/api/products/create-product', {
       method: 'POST',
       headers: {
@@ -121,9 +99,8 @@ export const getAllProducts = async (token: string) => {
   }
 }
 
-export const getProductById = async (id: number) => {
+export const getProductById = async (token: string, id: number) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
     const response = await fetch(`https://interview.t-alpha.com.br/api/products/get-one-product/${id}`, {
       method: 'GET',
       headers: {
@@ -143,10 +120,9 @@ export const getProductById = async (id: number) => {
   }
 }
 
-export const fetchUpdateProducts = async (id: number, productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
+export const fetchUpdateProducts = async (token: string, id: number, productName: string, productDescription: string, productPrice: number, productQuantity: number) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
-    const response = await fetch(`https://interview.t-alpha.com.br/api/products/update-product/${id}`, {
+    await fetch(`https://interview.t-alpha.com.br/api/products/update-product/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -159,36 +135,22 @@ export const fetchUpdateProducts = async (id: number, productName: string, produ
         stock: productQuantity
       })
     });
-    
-    if(!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
 
-    const data = await response.json();
-    return data;
     
   } catch (error) {
     console.log('Erro ao executar o fetchUpdateProducts', error);
   }
 }
 
-export const fetchDeleteProductById = async (id: number) => {
+export const fetchDeleteProductById = async (token: string, id: number) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzksImlhdCI6MTcyMzI1MjkyNH0.WgxA41e1lOjHJjZhbwU-OgoFoZcUMu9UrX2OJXxpM6k"
-    const response = await fetch(`https://interview.t-alpha.com.br/api/products/delete-product/${id}`, {
+    fetch(`https://interview.t-alpha.com.br/api/products/delete-product/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     });
 
-    if(!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
-    }
-
-    const data = response.json();
-    return data;
-    
   } catch (error) {
     console.log('Erro ao executar o deleteProductById', error);
   }
