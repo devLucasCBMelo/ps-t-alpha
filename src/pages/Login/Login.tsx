@@ -3,6 +3,7 @@ import { fetchLogin } from "../../utils/fetchProductsApi";
 import styles from "./Login.module.css"
 import { useContext, useEffect, useState } from "react";
 import context from "../../context/appContext";
+import Footer from "../../components/Footer/Footer";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,34 +46,53 @@ function Login() {
   }
   
   return (
-    <div className={ styles.login_container}>
-      <form 
-        className={ styles.container_form}
-        onSubmit={ (event) => handleLogin(event)}
-      >
-        <h1>Login</h1>
-        <input
-          type="text"
-          placeholder="Digite seu CPF ou CNPJ"
-          className={ styles.input_text }
-          required
-          onChange={ (event) => setUserTaxNumber(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Senha do usuário"
-          className={ styles.input_password }
-          required
-          onChange={ (event) => setUserPassword(event.target.value)}
-        />
-        <button type="submit" disabled={checkLoginInfos}>Entrar</button>
-      </form>
-
-      <div className={ styles.second_container}>
-        <h3>Não tem cadastro? Clique abaixo para se cadastrar</h3>
-        <button onClick={ () => navigate('/register')}>Cadastre-se</button>
+    <>
+      <div className={ styles.login_header }>
+        <h1>ESTOQUE DE PRODUTOS T-ALPHA</h1>
       </div>
-    </div>
+
+      <div className={ styles.login_container}>
+        <form 
+          className={ styles.container_form}
+          onSubmit={ (event) => handleLogin(event)}
+        >
+          <h1>Login</h1>
+          <input
+            type="text"
+            placeholder="Digite seu CPF ou CNPJ"
+            className={ styles.input_text }
+            required
+            onChange={ (event) => setUserTaxNumber(event.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Senha do usuário"
+            className={ styles.input_password }
+            required
+            onChange={ (event) => setUserPassword(event.target.value)}
+          />
+          <button
+            type="submit"
+            disabled={checkLoginInfos}
+          >
+            Entrar
+          </button>
+
+        </form>
+
+        <div className={ styles.second_container}>
+          <h3>Ainda não tem cadastro? </h3>
+          <button
+          className={ styles.register_button }
+            onClick={ () => navigate('/register')}
+          >
+            Cadastre-se
+          </button>
+        </div>
+      </div>
+
+      <Footer />
+    </>
     
   )
   

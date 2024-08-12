@@ -29,6 +29,10 @@
   margin-top: 50px;
 }
 
+.form_update_products h3 {
+  color: darkblue;
+}
+
 .form_input_id_update_products {
   height: 35px;
   width: 400px;

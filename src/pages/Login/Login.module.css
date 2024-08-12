@@ -6,11 +6,32 @@
   min-height: 100vh;
 }
 
+.login_header {
+  background-color: chocolate;
+  color: antiquewhite;
+  display: flex;
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  height: 7vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .container_form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 70px;
+  border: 0.185px solid;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.container_form h1 {
+  color:darkblue;
 }
 
 .input_text {
@@ -20,6 +41,7 @@
   font-family: Epilogue , sans-serif;
   font-weight: 400;
   height: 40px;
+  margin-top: 10px;
   margin-bottom: 10px;
   padding-left: 20px;
   width: 276px;
@@ -38,8 +60,12 @@
 }
 
 .second_container {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+}
+
+.register_button {
+  margin-top: 10px;
 }

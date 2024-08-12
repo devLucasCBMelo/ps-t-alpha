@@ -26,6 +26,12 @@ function Products() {
   }, [productsList]);
 
   const findProductById = async () => {
+    if (!productId) {
+      setFoundedProduct(null);
+      fetchAllProducts();
+      return;
+    }
+
     try {
       const result = await getProductById(userToken, Number(productId));
       setFoundedProduct(result.data.product);
@@ -34,10 +40,6 @@ function Products() {
     }
   };
 
-  const handleFindProduct = () => {
-    setFoundedProduct(null);
-    findProductById();
-  };
 
   const deleteProduct = async (id: number) => {
     try {
@@ -69,7 +71,7 @@ function Products() {
           value={productId}
           onChange={(event) => setProductId(event.target.value)}
         />
-        <button onClick={handleFindProduct}>Buscar</button>
+        <button onClick={ () => findProductById() }>Buscar</button>
       </div>
 
       <div className={styles.products_cards}>

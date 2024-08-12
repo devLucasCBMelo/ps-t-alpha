@@ -67,7 +67,9 @@ function RegisterUser() {
         Voltar
       </button>
 
-      <form onSubmit={ (event) => saveUserOnLocalStorage(event) }>
+      <form
+        className={ styles.container_form }
+        onSubmit={ (event) => saveUserOnLocalStorage(event) }>
         <div>
           <h3>Nome completo:</h3>
           <input
